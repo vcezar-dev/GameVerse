@@ -2,7 +2,7 @@ import { Text, TextInput, View } from "react-native";
 import { useInputStyles } from "./styles";
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 
-export function Input({ value, onChangeText, label}) {
+export function Input({ value, onChangeText, label, onSubmitEditing}) {
     const styles = useInputStyles();
 
     return(
@@ -15,6 +15,7 @@ export function Input({ value, onChangeText, label}) {
                 placeholderTextColor="#c5c3c3"
                 value={value}
                 onChangeText={onChangeText}
+                onSubmitEditing={onSubmitEditing}
             >
             </TextInput>
         </View>
