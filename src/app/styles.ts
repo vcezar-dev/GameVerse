@@ -1,6 +1,5 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, useColorScheme } from "react-native";
 import Colors from "@/src/constants/Colors";
-import { useColorScheme } from "react-native";
 
 export const useHomeStyles = () => {
   const colorScheme = useColorScheme();
@@ -19,14 +18,39 @@ export const useHomeStyles = () => {
     content: {
       flex: 1,
       paddingHorizontal: 24,
-      paddingTop: 80,
-      paddingBottom: 24,
+      paddingTop: 60,
+      paddingBottom: 16,
+    },
+
+    title: {
+        fontSize: 32,
+        fontWeight: 'bold',
+        color: theme.text,
+        marginBottom: 8
+    },
+
+    subtitle: {
+        fontSize: 24,
+        fontWeight: '600',
+        color: theme.text,
+        marginBottom: 10
     },
 
     text: {
       color: theme.text,
       fontSize: 18,
-      fontWeight: "bold",
+      fontWeight: 'bold'
     },
+
+    body: {
+      flex: 1,
+      alignItems: 'center',
+      marginBottom: 40
+    },
+
+    card: {
+      borderRadius: 16,
+      marginBottom: 20
+    }
   });
 };
