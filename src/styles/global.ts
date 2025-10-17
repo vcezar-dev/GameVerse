@@ -1,7 +1,7 @@
 import { StyleSheet, useColorScheme } from "react-native";
 import Colors from "@/src/constants/Colors";
 
-export const useHomeStyles = () => {
+export const useGlobalStyles = () => {
   const colorScheme = useColorScheme();
   const theme = colorScheme === "dark" ? Colors.dark : Colors.light;
 
@@ -49,6 +49,7 @@ export const useHomeStyles = () => {
     },
 
     card: {
+      marginHorizontal: 20,
       borderRadius: 16,
       marginBottom: 20
     }
