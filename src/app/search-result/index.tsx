@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
 import { Input } from "@/src/components/Input";
 import { rawgApi } from "@/src/services/api";
 import { useGlobalStyles } from "@/src/styles/global";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 import { Image, KeyboardAvoidingView, ScrollView, Text, View } from "react-native";
-import { router, useLocalSearchParams, Redirect } from "expo-router";
 
 export default function Index() {
     type Game = {
@@ -24,7 +24,8 @@ export default function Index() {
     useEffect(() => {
         async function fetchData() {
             if (!searchGame) {
-                return <Redirect href="/"/>;
+                router.replace("/");
+                return;
             }
 
             try {
@@ -41,12 +42,12 @@ export default function Index() {
     }, [searchGame]);
 
     
-    async function fetchGame() {
+    async function fetchGames() {
         if (!searchInput) return;
         try {
             const data = await rawgApi(searchInput);
             setResult(data.results);
-            router.replace({ pathname: "/searchResult", params: { searchGame: searchInput } });
+            router.replace({ pathname: "/search-result", params: { searchGame: searchInput } });
         } catch (error) {
             console.log(error);
         }
@@ -56,7 +57,7 @@ export default function Index() {
         <KeyboardAvoidingView style={styles.container}>
             <ScrollView style={styles.ScrollView}>
                 <View style={styles.content}>
-                    <Input label="Search Game" value={searchInput} onChangeText={setSearchInput} onSubmitEditing={fetchGame}></Input>
+                    <Input label="Search Game" value={searchInput} onChangeText={setSearchInput} onSubmitEditing={fetchGames}></Input>
                 </View>
                 <View style={styles.body}>
                     <View style={styles.card}>

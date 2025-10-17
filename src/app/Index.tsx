@@ -1,15 +1,15 @@
 import { Input } from "@/src/components/Input";
+import { useGlobalStyles } from "@/src/styles/global";
 import { router } from "expo-router";
 import { useState } from "react";
-import { Image, KeyboardAvoidingView, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { useGlobalStyles } from "@/src/styles/global";
+import { Image, KeyboardAvoidingView, ScrollView, Text, View } from "react-native";
 
 export default function Index() {
     const styles = useGlobalStyles();
     const [searchGame, setSearchGame] = useState('')
 
     async function searchPage() {
-        router.navigate({pathname: "/searchResult", params: {searchGame}})
+        router.navigate({pathname: "/search-result", params: {searchGame}})
     }
 
     return (
