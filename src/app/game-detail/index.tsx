@@ -6,7 +6,7 @@ import { Image, KeyboardAvoidingView, ScrollView, Text, View } from "react-nativ
 
 export default function Index() {
     type Game = {
-        id: number;
+        id: string;
         name: string;
         released: string;
         background_image: string;
@@ -15,9 +15,9 @@ export default function Index() {
         rating_top: number;
     }
 
-    const { gameId } = useLocalSearchParams()
+    const { gameId } = useLocalSearchParams<{ gameId?: string }>();
     const [searchInput, setSearchInput] = useState(gameId || '');
-    const [gameDetails, setGameDetails] = useState<Game[]>([])
+    const [gameDetails, setGameDetails] = useState<Game | null>(null)
     const styles = useGlobalStyles();
 
     useEffect(() => {
@@ -41,35 +41,26 @@ export default function Index() {
         }
     }, [gameId]);
 
-    // async function fetchGames() {
-    //     if (!searchInput) return;
-    //     try {
-    //         const data = await fetchGamesBySearch(searchInput);
-    //         setResult(data.results);
-    //         router.replace({ pathname: "/search-result", params: { searchGame: searchInput } });
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
-
     return (
-    <KeyboardAvoidingView style={styles.container}>
-      <ScrollView style={styles.ScrollView}>
-        <View style={styles.body}>
-          <View style={styles.card}>
-            <Text style={styles.subtitle}>{gameDetails.name}</Text>
-            <Image
-              source={{ uri: gameDetails.background_image }}
-              style={{ width: 300, height: 300, borderRadius: 16 }}
-            />
-            <Text style={styles.text}>{gameDetails.description_raw}</Text>
-            <Text style={styles.text}>Lançado em: {gameDetails.released}</Text>
-            <Text style={styles.text}>
-              Avaliação: {gameDetails.rating}/{gameDetails.rating_top}
-            </Text>
-          </View>
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
-  );
+        <KeyboardAvoidingView style={styles.container}>
+            <ScrollView style={styles.ScrollView}>
+                <View style={styles.body}>
+                    {gameDetails && (
+                        <View style={styles.card}>
+                            <Text style={styles.subtitle}>{gameDetails.name}</Text>
+                            <Image
+                                source={{ uri: gameDetails.background_image }}
+                                style={{ width: 300, height: 300, borderRadius: 16 }}
+                            />
+                            <Text style={styles.text}>{gameDetails.description_raw}</Text>
+                            <Text style={styles.text}>Lançado em: {gameDetails.released}</Text>
+                            <Text style={styles.text}>
+                                Avaliação: {gameDetails.rating}/{gameDetails.rating_top}
+                            </Text>
+                        </View>
+                    )}
+                </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
+    );
 };

@@ -1,5 +1,5 @@
 const BASE_URL = "https://api.rawg.io/api/games";
-const API_KEY = "861d2db735a043a49c7cc772e9bb14c5";
+const API_KEY = process.env.API_KEY
 
 export async function fetchGamesBySearch(gameSearch: string){
     try {
@@ -11,7 +11,7 @@ export async function fetchGamesBySearch(gameSearch: string){
     }
 }
 
-export async function fetchGameById(gameId: number) {
+export async function fetchGameById(gameId: string) {
     try {
         const response = await fetch(`${BASE_URL}/${gameId}?key=${API_KEY}`);
         console.log(`${BASE_URL}/games/${gameId}?key=${API_KEY}`)

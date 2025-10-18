@@ -7,12 +7,12 @@ import { Image, KeyboardAvoidingView, Pressable, ScrollView, Text, TouchableOpac
 
 export default function Index() {
     type Game = {
-        id: number;
+        id: string;
         name: string;
         background_image: string;
     }
 
-    const { searchGame } = useLocalSearchParams()
+    const { searchGame } = useLocalSearchParams<{ searchGame?: string }>();
     const [searchInput, setSearchInput] = useState(searchGame || '');
     const [result, setResult] = useState<Game[]>([])
 
@@ -50,7 +50,7 @@ export default function Index() {
         }
     }
 
-    async function goToGameDetail(gameId) {
+    async function goToGameDetail(gameId: string) {
         router.navigate({ pathname: "/game-detail", params: { gameId } });
     }
 
