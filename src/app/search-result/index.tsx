@@ -1,18 +1,15 @@
 import { Input } from "@/src/components/Input";
-import { rawgApi } from "@/src/services/api";
+import { fetchGamesBySearch } from "@/src/services/api";
 import { useGlobalStyles } from "@/src/styles/global";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, KeyboardAvoidingView, ScrollView, Text, View } from "react-native";
+import { Image, KeyboardAvoidingView, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
     type Game = {
         id: number;
         name: string;
-        released: string;
         background_image: string;
-        rating: number;
-        rating_top: number;
     }
 
     const { searchGame } = useLocalSearchParams()
@@ -29,7 +26,7 @@ export default function Index() {
             }
 
             try {
-                const data = await rawgApi(searchGame);
+                const data = await fetchGamesBySearch(searchGame);
                 setResult(data.results);
             } catch (error) {
                 console.error("Erro ao buscar dados:", error);
@@ -45,12 +42,16 @@ export default function Index() {
     async function fetchGames() {
         if (!searchInput) return;
         try {
-            const data = await rawgApi(searchInput);
+            const data = await fetchGamesBySearch(searchInput);
             setResult(data.results);
             router.replace({ pathname: "/search-result", params: { searchGame: searchInput } });
         } catch (error) {
             console.log(error);
         }
+    }
+
+    async function goToGameDetail(gameId) {
+        router.navigate({ pathname: "/game-detail", params: { gameId } });
     }
 
     return (
@@ -63,13 +64,14 @@ export default function Index() {
                     <View style={styles.card}>
                         {result && result.map(game => (
                             <View key={game.id} style={styles.card}>
-                                <Text style={styles.subtitle}>{game.name}</Text>
-                                <Image
-                                    source={{ uri: game.background_image }}
-                                    style={{ width: 300, height: 300, borderRadius: 16 }}
-                                />
-                                <Text style={styles.text}>{game.released}</Text>
-                                <Text style={styles.text}>{game.rating}/{game.rating_top}</Text>
+
+                                <Pressable style={({ pressed }) => [{ opacity: pressed ? 0.6 : 1 }]} onPress={() => goToGameDetail(game.id)}>
+                                    <Text style={styles.subtitle}>{game.name}</Text>
+                                    <Image
+                                        source={{ uri: game.background_image }}
+                                        style={{ width: 300, height: 300, borderRadius: 16 }}
+                                    />
+                                </Pressable>               
                             </View>
                         ))}
                     </View>

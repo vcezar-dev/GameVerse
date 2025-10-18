@@ -8,7 +8,7 @@ export default function Index() {
     const styles = useGlobalStyles();
     const [searchGame, setSearchGame] = useState('')
 
-    async function searchPage() {
+    async function goToSearchPage() {
         router.navigate({pathname: "/search-result", params: {searchGame}})
     }
 
@@ -17,7 +17,7 @@ export default function Index() {
             <ScrollView style={styles.ScrollView}>
                 <View style={styles.content}>
                     <Text style={styles.title}>Bem-vindo ao GameVerse!</Text>
-                    <Input label="Search Game" value={searchGame} onChangeText={setSearchGame} onSubmitEditing={searchPage}></Input>
+                    <Input label="Search Game" value={searchGame} onChangeText={setSearchGame} onSubmitEditing={goToSearchPage}></Input>
                 </View>
                 <View style={styles.body}>
                     <View style={styles.card}>
