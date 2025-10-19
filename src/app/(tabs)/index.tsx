@@ -1,15 +1,16 @@
 import { Input } from "@/src/components/Input";
 import { useGlobalStyles } from "@/src/styles/global";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Image, KeyboardAvoidingView, ScrollView, Text, View } from "react-native";
 
 export default function Index() {
     const styles = useGlobalStyles();
+    const router = useRouter();
     const [searchGame, setSearchGame] = useState('')
 
     async function goToSearchPage() {
-        router.navigate({pathname: "/search-result", params: {searchGame}})
+        router.push("/search-result")
     }
 
     return (
@@ -17,7 +18,6 @@ export default function Index() {
             <ScrollView style={styles.ScrollView}>
                 <View style={styles.content}>
                     <Text style={styles.title}>Bem-vindo ao GameVerse!</Text>
-                    <Input label="Search Game" value={searchGame} onChangeText={setSearchGame} onSubmitEditing={goToSearchPage}></Input>
                 </View>
                 <View style={styles.body}>
                     <View style={styles.card}>

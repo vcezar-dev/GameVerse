@@ -1,5 +1,7 @@
 const BASE_URL = "https://api.rawg.io/api/games";
-const API_KEY = process.env.API_KEY
+const API_KEY = "861d2db735a043a49c7cc772e9bb14c5";
+
+// const API_KEY = process.env.API_KEY;
 
 export async function fetchGamesBySearch(gameSearch: string){
     try {
