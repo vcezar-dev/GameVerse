@@ -1,8 +1,8 @@
-import { Input } from "@/src/components/Input";
 import { useGlobalStyles } from "@/src/styles/global";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Image, KeyboardAvoidingView, ScrollView, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
     const styles = useGlobalStyles();
