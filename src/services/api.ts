@@ -16,10 +16,30 @@ export async function fetchGamesBySearch(gameSearch: string){
 export async function fetchGameById(gameId: string) {
     try {
         const response = await fetch(`${BASE_URL}/${gameId}?key=${API_KEY}`);
-        console.log(`${BASE_URL}/games/${gameId}?key=${API_KEY}`)
         const data = await response.json()
         return data
     } catch (error) {
         console.log(error)
     }
+}
+
+export async function fetchUpcomingGames() {
+  const today = new Date();
+  const nextMonth = new Date();
+  nextMonth.setMonth(today.getMonth() + 1);
+
+  const startDate = today.toISOString().split("T")[0];
+  const endDate = nextMonth.toISOString().split("T")[0];
+
+  const response = await fetch(
+    `${BASE_URL}/games?key=${API_KEY}&dates=${startDate},${endDate}&ordering=released&page_size=10`
+  );
+  return response.json();
+}
+
+export async function fetchPopularGames() {
+  const response = await fetch(
+    `${BASE_URL}/games?key=${API_KEY}&ordering=-rating&page_size=10`
+  );
+  return response.json();
 }
