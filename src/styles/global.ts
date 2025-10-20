@@ -18,7 +18,6 @@ export const useGlobalStyles = () => {
     content: {
       flex: 1,
       paddingHorizontal: 24,
-      paddingTop: 60,
       paddingBottom: 16,
     },
 

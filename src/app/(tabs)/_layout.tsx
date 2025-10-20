@@ -1,44 +1,69 @@
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useColorScheme } from "react-native";
+import Colors from "@/src/constants/Colors";
 
 export default function TabLayout() {
+  const colorScheme = useColorScheme();
+  const theme = colorScheme === "dark" ? Colors.dark : Colors.light;
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#FFF" }} edges={["bottom"]}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }} edges={["bottom"]}>
       <Tabs
-        screenOptions={{
+        screenOptions={({ route }) => ({
           headerShown: false,
           tabBarShowLabel: true,
           tabBarStyle: {
-            backgroundColor: "#121212",
-            borderTopColor: "#222",
+            backgroundColor: theme.background,
+            borderTopColor: theme.background,
             height: 50,
             position: "absolute",
             bottom: 0,
             left: 0,
             right: 0,
             paddingBottom: 5,
+            paddingTop: 3
           },
-          tabBarActiveTintColor: "#32CD32",
-          tabBarInactiveTintColor: "#ccc",
-        }}
+          tabBarLabelStyle: {
+            fontWeight: "bold",
+            marginTop: 3,
+            fontSize: 12
+          },
+          tabBarActiveTintColor: theme.tabIconSelected,
+          tabBarInactiveTintColor: theme.tabIconDefault,
+
+          // Mudar ícone quando não selecionado
+          tabBarIcon: ({ color, size, focused }) => {
+            let iconName: keyof typeof Ionicons.glyphMap = "home-outline";
+
+            if (route.name === "index")
+              iconName = focused ? "home" : "home-outline";
+            else if (route.name === "search-result")
+              iconName = focused ? "search" : "search-outline";
+            else if (route.name === "settings")
+              iconName = focused ? "settings" : "settings-outline";
+
+            return <Ionicons name={iconName} size={22} color={color} />;
+          }
+        })}
       >
         <Tabs.Screen
           name="index"
           options={{
             title: "Home",
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="home" size={size} color={color} />
-            ),
           }}
         />
         <Tabs.Screen
           name="search-result"
           options={{
             title: "Search",
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="search" size={size} color={color} />
-            ),
+          }}
+        />
+        <Tabs.Screen
+          name="settings"
+          options={{
+            title: "Config",
           }}
         />
       </Tabs>

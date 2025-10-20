@@ -2,7 +2,8 @@ import { fetchGameById } from "@/src/services/api";
 import { useGlobalStyles } from "@/src/styles/global";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, KeyboardAvoidingView, ScrollView, Text, View } from "react-native";
+import { Image, ScrollView, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
     type Game = {
@@ -16,7 +17,6 @@ export default function Index() {
     }
 
     const { gameId } = useLocalSearchParams<{ gameId?: string }>();
-    const [searchInput, setSearchInput] = useState(gameId || '');
     const [gameDetails, setGameDetails] = useState<Game | null>(null)
     const styles = useGlobalStyles();
 
@@ -30,7 +30,6 @@ export default function Index() {
             try {
                 const data = await fetchGameById(gameId);
                 setGameDetails(data);
-                console.log(data)
             } catch (error) {
                 console.error("Erro ao buscar dados:", error);
             }
@@ -42,7 +41,7 @@ export default function Index() {
     }, [gameId]);
 
     return (
-        <KeyboardAvoidingView style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <ScrollView style={styles.ScrollView}>
                 <View style={styles.body}>
                     {gameDetails && (
@@ -61,6 +60,6 @@ export default function Index() {
                     )}
                 </View>
             </ScrollView>
-        </KeyboardAvoidingView>
+        </SafeAreaView>
     );
 };

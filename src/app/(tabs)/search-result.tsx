@@ -5,7 +5,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Image, KeyboardAvoidingView, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
-export default function Index() {
+export default function SearchScreen() {
     type Game = {
         id: string;
         name: string;
@@ -51,7 +51,7 @@ export default function Index() {
     }
 
     async function goToGameDetail(gameId: string) {
-        router.navigate({ pathname: "/game-detail", params: { gameId } });
+        router.navigate({ pathname: "/game/game-detail", params: { gameId } });
     }
 
     return (
