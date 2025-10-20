@@ -3,20 +3,18 @@ import { fetchGamesBySearch } from "@/src/services/api";
 import { useGlobalStyles } from "@/src/styles/global";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, KeyboardAvoidingView, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Image, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, useColorScheme, View } from "react-native";
+import { Game } from "@/src/types";
+import Colors from "@/src/constants/Colors";
 
 export default function SearchScreen() {
-    type Game = {
-        id: string;
-        name: string;
-        background_image: string;
-    }
-
     const { searchGame } = useLocalSearchParams<{ searchGame?: string }>();
     const [searchInput, setSearchInput] = useState(searchGame || '');
     const [result, setResult] = useState<Game[]>([])
 
-    const styles = useGlobalStyles();
+    const globalStyles = useGlobalStyles();
+    const colorScheme = useColorScheme();
+    const theme = colorScheme === "dark" ? Colors.dark : Colors.light;
 
     useEffect(() => {
         async function fetchData() {
@@ -38,7 +36,7 @@ export default function SearchScreen() {
         }
     }, [searchGame]);
 
-    
+
     async function fetchGames() {
         if (!searchInput) return;
         try {
@@ -50,33 +48,79 @@ export default function SearchScreen() {
         }
     }
 
-    async function goToGameDetail(gameId: string) {
+    async function goToGameDetail(gameId: number) {
         router.navigate({ pathname: "/game/game-detail", params: { gameId } });
     }
 
     return (
-        <KeyboardAvoidingView style={styles.container}>
-            <ScrollView style={styles.ScrollView}>
-                <View style={styles.content}>
+        <KeyboardAvoidingView style={globalStyles.container}>
+            <View style={globalStyles.header}>
+                <Text style={globalStyles.headerTitle}>GameVerse</Text>
+            </View>
+            <ScrollView style={globalStyles.ScrollView}>
+                <View style={globalStyles.content}>
                     <Input label="Search Game" value={searchInput} onChangeText={setSearchInput} onSubmitEditing={fetchGames}></Input>
                 </View>
-                <View style={styles.body}>
-                    <View style={styles.card}>
-                        {result && result.map(game => (
-                            <View key={game.id} style={styles.card}>
+                <View style={styles(theme).body}>
+                    {result && result.map(game => (
+                        <View key={game.id} style={styles(theme).card}>
 
-                                <Pressable style={({ pressed }) => [{ opacity: pressed ? 0.6 : 1 }]} onPress={() => goToGameDetail(game.id)}>
-                                    <Text style={styles.subtitle}>{game.name}</Text>
-                                    <Image
-                                        source={{ uri: game.background_image }}
-                                        style={{ width: 300, height: 300, borderRadius: 16 }}
-                                    />
-                                </Pressable>               
-                            </View>
-                        ))}
-                    </View>
+                            <Pressable style={({ pressed }) => [{ opacity: pressed ? 0.6 : 1 }]} onPress={() => goToGameDetail(game.id)}>
+                                <Text style={styles(theme).subtitle}>{game.name}</Text>
+                                <Image
+                                    source={{ uri: game.background_image }}
+                                    style={{ width: 300, height: 300, borderRadius: 16 }}
+                                />
+                            </Pressable>
+                        </View>
+                    ))}
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
     )
 }
+
+const styles = (theme: typeof Colors.light | typeof Colors.dark) =>
+    StyleSheet.create({
+        content: {
+            flex: 1,
+            paddingHorizontal: 24,
+            paddingBottom: 16,
+        },
+        title: {
+            fontSize: 32,
+            fontWeight: "bold",
+            marginBottom: 8,
+            color: theme.text,
+        },
+        subtitle: {
+            fontSize: 24,
+            fontWeight: "600",
+            marginBottom: 10,
+            color: theme.text,
+        },
+        text: {
+            fontSize: 18,
+            fontWeight: "bold",
+            marginVertical: 8,
+            color: theme.text,
+        },
+        body: {
+            flex: 1,
+            alignItems: "center",
+            marginBottom: 40,
+        },
+        card: {
+            marginBottom: 20,
+            borderRadius: 12,
+            overflow: "hidden",
+            alignItems: "center",
+            backgroundColor: theme.inputBackground,
+            padding: 10,
+        },
+        image: {
+            width: 300,
+            height: 300,
+            borderRadius: 10,
+        },
+    });

@@ -5,17 +5,9 @@ import { useEffect, useState } from "react";
 import { Image, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function Index() {
-    type Game = {
-        id: string;
-        name: string;
-        released: string;
-        background_image: string;
-        description_raw: string;
-        rating: number;
-        rating_top: number;
-    }
+import { Game } from "@/src/types";
 
+export default function Index() {
     const { gameId } = useLocalSearchParams<{ gameId?: string }>();
     const [gameDetails, setGameDetails] = useState<Game | null>(null)
     const styles = useGlobalStyles();

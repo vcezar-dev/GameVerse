@@ -32,7 +32,7 @@ export async function fetchUpcomingGames() {
   const endDate = nextMonth.toISOString().split("T")[0];
 
   const response = await fetch(
-    `${BASE_URL}/games?key=${API_KEY}&dates=${startDate},${endDate}&ordering=released&page_size=10`
+    `${BASE_URL}?key=${API_KEY}&dates=${startDate},${endDate}&ordering=released&page_size=10`
   );
   return response.json();
 }

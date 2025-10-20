@@ -22,35 +22,26 @@ export const useGlobalStyles = () => {
     },
 
     title: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        color: theme.text,
-        marginBottom: 8
-    },
-
-    subtitle: {
-        fontSize: 24,
-        fontWeight: '600',
-        color: theme.text,
-        marginBottom: 10
-    },
-
-    text: {
+      fontSize: 32,
+      fontWeight: 'bold',
       color: theme.text,
-      fontSize: 18,
-      fontWeight: 'bold'
+      marginBottom: 8
     },
 
-    body: {
-      flex: 1,
+    header: {
+      width: '100%',
+      paddingVertical: 16,
+      paddingHorizontal: 24,
+      backgroundColor: theme.background, 
+      flexDirection: 'row',
       alignItems: 'center',
-      marginBottom: 40
+      justifyContent: 'space-between', 
     },
 
-    card: {
-      marginHorizontal: 20,
-      borderRadius: 16,
-      marginBottom: 20
-    }
+    headerTitle: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: theme.text,
+    },
   });
 };
