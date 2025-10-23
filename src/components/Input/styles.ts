@@ -1,5 +1,5 @@
+import Colors from "@/src/constants/colors";
 import { StyleSheet, useColorScheme } from "react-native";
-import Colors from "@/src/constants/Colors";
 
 export const useInputStyles = () => {
     const colorScheme = useColorScheme();

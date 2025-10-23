@@ -1,16 +1,17 @@
+import { fetchPopularGames, fetchUpcomingGames } from "@/src/services/api";
 import { useGlobalStyles } from "@/src/styles/global";
-import { Image, ScrollView, Text, TouchableOpacity, View, StyleSheet, useColorScheme } from "react-native";
-import { fetchUpcomingGames, fetchPopularGames } from "@/src/services/api";
 import { useEffect, useState } from "react";
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import Colors from "@/src/constants/Colors";
 import { Game } from "@/src/types";
+
+import { useTheme } from "@/src/hooks/useTheme";
+
+const { theme } = useTheme();
 
 export default function HomeScreen() {
     const globalStyles = useGlobalStyles();
-    const colorScheme = useColorScheme();
-    const theme = colorScheme === "dark" ? Colors.dark : Colors.light;
 
     const [popularGames, setPopularGames] = useState<Game[]>([]);
     const [upcomingGames, setUpcomingGames] = useState<Game[]>([]);
@@ -37,31 +38,31 @@ export default function HomeScreen() {
                 <Text style={globalStyles.headerTitle}>GameVerse</Text>
             </View>
             <ScrollView style={globalStyles.ScrollView}>
-                <View style={styles(theme).body}>
+                <View style={styles.body}>
 
-                    <Text style={styles(theme).subtitle}>🎮 Jogos em Lançamento</Text>
+                    <Text style={styles.subtitle}>🎮 Jogos em Lançamento</Text>
                     {upcomingGames.map(game => (
-                        <TouchableOpacity style={styles(theme).card} key={game.id}>
-                            <Text style={styles(theme).text}>{game.name}</Text>
+                        <TouchableOpacity style={styles.card} key={game.id}>
+                            <Text style={styles.text}>{game.name}</Text>
                             <Image
                                 source={{ uri: game.background_image }}
-                                style={styles(theme).image}
+                                style={styles.image}
                             />
                         </TouchableOpacity>
                     ))}
 
-                    <Text style={styles(theme).subtitle}>🔥 Populares Agora</Text>
-                    <View style={styles(theme).card}>
+                    <Text style={styles.subtitle}>🔥 Populares Agora</Text>
+                    <View style={styles.card}>
                         <Image
                             source={{ uri: 'https://media.rawg.io/media/games/b29/b294fdd866dcdb643e7bab370a552855.jpg' }}
-                            style={styles(theme).image}
+                            style={styles.image}
                         />
                     </View>
-                    <View style={styles(theme).card}>
-                        <Text style={styles(theme).subtitle}>Notícias</Text>
+                    <View style={styles.card}>
+                        <Text style={styles.subtitle}>Notícias</Text>
                         <Image
                             source={{ uri: 'https://media.rawg.io/media/games/b29/b294fdd866dcdb643e7bab370a552855.jpg' }}
-                            style={styles(theme).image}
+                            style={styles.image}
                         />
                     </View>
                 </View>
@@ -70,8 +71,7 @@ export default function HomeScreen() {
     );
 }
 
-const styles = (theme: typeof Colors.light | typeof Colors.dark) =>
-    StyleSheet.create({
+const styles = StyleSheet.create({
         content: {
             flex: 1,
             paddingHorizontal: 24,

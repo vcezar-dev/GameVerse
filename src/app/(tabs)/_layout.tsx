@@ -1,15 +1,11 @@
-import { Tabs } from "expo-router";
+import { useTheme } from "@/src/hooks/useTheme";
 import { Ionicons } from "@expo/vector-icons";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useColorScheme } from "react-native";
-import Colors from "@/src/constants/Colors";
+import { Tabs } from "expo-router";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-  const theme = colorScheme === "dark" ? Colors.dark : Colors.light;
+  const { theme } = useTheme();
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }} edges={["bottom"]}>
       <Tabs
         screenOptions={({ route }) => ({
           headerShown: false,
@@ -67,6 +63,5 @@ export default function TabLayout() {
           }}
         />
       </Tabs>
-    </SafeAreaView>
   );
 }

@@ -1,11 +1,16 @@
-import { Input } from "@/src/components/Input";
-import { fetchGamesBySearch } from "@/src/services/api";
-import { useGlobalStyles } from "@/src/styles/global";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Image, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, useColorScheme, View } from "react-native";
+
+import { Input } from "@/src/components/Input";
+
+import { useTheme } from "@/src/hooks/useTheme";
 import { Game } from "@/src/types";
-import Colors from "@/src/constants/Colors";
+
+import { fetchGamesBySearch } from "@/src/services/api";
+import { useGlobalStyles } from "@/src/styles/global";
+
+const { theme } = useTheme();
 
 export default function SearchScreen() {
     const { searchGame } = useLocalSearchParams<{ searchGame?: string }>();
@@ -13,8 +18,6 @@ export default function SearchScreen() {
     const [result, setResult] = useState<Game[]>([])
 
     const globalStyles = useGlobalStyles();
-    const colorScheme = useColorScheme();
-    const theme = colorScheme === "dark" ? Colors.dark : Colors.light;
 
     useEffect(() => {
         async function fetchData() {
@@ -61,12 +64,12 @@ export default function SearchScreen() {
                 <View style={globalStyles.content}>
                     <Input label="Search Game" value={searchInput} onChangeText={setSearchInput} onSubmitEditing={fetchGames}></Input>
                 </View>
-                <View style={styles(theme).body}>
+                <View style={styles.body}>
                     {result && result.map(game => (
-                        <View key={game.id} style={styles(theme).card}>
+                        <View key={game.id} style={styles.card}>
 
                             <Pressable style={({ pressed }) => [{ opacity: pressed ? 0.6 : 1 }]} onPress={() => goToGameDetail(game.id)}>
-                                <Text style={styles(theme).subtitle}>{game.name}</Text>
+                                <Text style={styles.subtitle}>{game.name}</Text>
                                 <Image
                                     source={{ uri: game.background_image }}
                                     style={{ width: 300, height: 300, borderRadius: 16 }}
@@ -80,8 +83,7 @@ export default function SearchScreen() {
     )
 }
 
-const styles = (theme: typeof Colors.light | typeof Colors.dark) =>
-    StyleSheet.create({
+const styles = StyleSheet.create({
         content: {
             flex: 1,
             paddingHorizontal: 24,
