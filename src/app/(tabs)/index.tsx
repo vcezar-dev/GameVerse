@@ -1,7 +1,7 @@
 import { fetchPopularGames, fetchUpcomingGames } from "@/src/services/api";
 import { useGlobalStyles } from "@/src/styles/global";
 import { useEffect, useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Game } from "@/src/types";
@@ -37,8 +37,29 @@ export default function HomeScreen() {
             <View style={globalStyles.header}>
                 <Text style={globalStyles.headerTitle}>GameVerse</Text>
             </View>
+
             <ScrollView style={globalStyles.ScrollView}>
                 <View style={styles.body}>
+                    <View>
+                        <Text style={styles.subtitle}>🎮 Jogos em Lançamento</Text>
+
+                        <FlatList
+                            data={upcomingGames}
+                            keyExtractor={(item) => item.id.toString()}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity style={styles.card}>
+                                    <Text style={styles.text}>{item.name}</Text>
+                                    <Image
+                                        source={{ uri: item.background_image }}
+                                        style={styles.image}
+                                    />
+                                </TouchableOpacity>
+                            )}
+                            horizontal 
+                            showsHorizontalScrollIndicator={false}
+                            scrollEnabled={false}                         
+                        />
+                    </View>
 
                     <Text style={styles.subtitle}>🎮 Jogos em Lançamento</Text>
                     {upcomingGames.map(game => (
@@ -72,45 +93,45 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-        content: {
-            flex: 1,
-            paddingHorizontal: 24,
-            paddingBottom: 16,
-        },
-        title: {
-            fontSize: 32,
-            fontWeight: "bold",
-            marginBottom: 8,
-            color: theme.text,
-        },
-        subtitle: {
-            fontSize: 24,
-            fontWeight: "600",
-            marginBottom: 10,
-            color: theme.text,
-        },
-        text: {
-            fontSize: 18,
-            fontWeight: "bold",
-            marginVertical: 8,
-            color: theme.text,
-        },
-        body: {
-            flex: 1,
-            alignItems: "center",
-            marginBottom: 40,
-        },
-        card: {
-            marginBottom: 20,
-            borderRadius: 12,
-            overflow: "hidden",
-            alignItems: "center",
-            backgroundColor: theme.inputBackground,
-            padding: 10,
-        },
-        image: {
-            width: 300,
-            height: 300,
-            borderRadius: 10,
-        },
-    });
+    content: {
+        flex: 1,
+        paddingHorizontal: 24,
+        paddingBottom: 16,
+    },
+    title: {
+        fontSize: 32,
+        fontWeight: "bold",
+        marginBottom: 8,
+        color: theme.text,
+    },
+    subtitle: {
+        fontSize: 24,
+        fontWeight: "600",
+        marginBottom: 10,
+        color: theme.text,
+    },
+    text: {
+        fontSize: 18,
+        fontWeight: "bold",
+        marginVertical: 8,
+        color: theme.text,
+    },
+    body: {
+        flex: 1,
+        alignItems: "center",
+        marginBottom: 40,
+    },
+    card: {
+        marginBottom: 20,
+        borderRadius: 12,
+        overflow: "hidden",
+        alignItems: "center",
+        backgroundColor: theme.inputBackground,
+        padding: 10,
+    },
+    image: {
+        width: 300,
+        height: 300,
+        borderRadius: 10,
+    },
+});
