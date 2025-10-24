@@ -1,18 +1,21 @@
 import { fetchPopularGames, fetchUpcomingGames } from "@/src/services/api";
-import { useGlobalStyles } from "@/src/styles/global";
 import { useEffect, useState } from "react";
-import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+    FlatList,
+    ImageBackground,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 
+import { Header } from "@/src/components/Header";
 import { Game } from "@/src/types";
-
-import { useTheme } from "@/src/hooks/useTheme";
-
-const { theme } = useTheme();
+import { colors } from "@/src/constants/colors";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function HomeScreen() {
-    const globalStyles = useGlobalStyles();
-
     const [popularGames, setPopularGames] = useState<Game[]>([]);
     const [upcomingGames, setUpcomingGames] = useState<Game[]>([]);
 
@@ -33,105 +36,206 @@ export default function HomeScreen() {
     }, []);
 
     return (
-        <SafeAreaView style={globalStyles.container}>
-            <View style={globalStyles.header}>
-                <Text style={globalStyles.headerTitle}>GameVerse</Text>
-            </View>
+        <View style={styles.container}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <Header />
 
-            <ScrollView style={globalStyles.ScrollView}>
-                <View style={styles.body}>
-                    <View>
-                        <Text style={styles.subtitle}>🎮 Jogos em Lançamento</Text>
+                <Ionicons name="game-controller" size={40} color="#555" />
 
-                        <FlatList
-                            data={upcomingGames}
-                            keyExtractor={(item) => item.id.toString()}
-                            renderItem={({ item }) => (
-                                <TouchableOpacity style={styles.card}>
-                                    <Text style={styles.text}>{item.name}</Text>
-                                    <Image
-                                        source={{ uri: item.background_image }}
-                                        style={styles.image}
-                                    />
-                                </TouchableOpacity>
-                            )}
-                            horizontal 
-                            showsHorizontalScrollIndicator={false}
-                            scrollEnabled={false}                         
-                        />
-                    </View>
+                <View style={styles.section}>
+                    <Text style={styles.title}>🎮 Jogos em Lançamento</Text>
 
-                    <Text style={styles.subtitle}>🎮 Jogos em Lançamento</Text>
-                    {upcomingGames.map(game => (
-                        <TouchableOpacity style={styles.card} key={game.id}>
-                            <Text style={styles.text}>{game.name}</Text>
-                            <Image
-                                source={{ uri: game.background_image }}
-                                style={styles.image}
-                            />
-                        </TouchableOpacity>
-                    ))}
+                    <FlatList
+                        data={upcomingGames}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity activeOpacity={0.8} style={styles.card}>
+                                <ImageBackground
+                                    source={{ uri: item.background_image }}
+                                    style={styles.image}
+                                    imageStyle={styles.imageRadius}
+                                >
+                                    <View style={styles.overlay} />
+                                    <Text style={styles.gameTitle}>{item.name}</Text>
+                                </ImageBackground>
+                            </TouchableOpacity>
+                        )}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={styles.content}
+                    />
+                </View>
 
-                    <Text style={styles.subtitle}>🔥 Populares Agora</Text>
-                    <View style={styles.card}>
-                        <Image
-                            source={{ uri: 'https://media.rawg.io/media/games/b29/b294fdd866dcdb643e7bab370a552855.jpg' }}
-                            style={styles.image}
-                        />
-                    </View>
-                    <View style={styles.card}>
-                        <Text style={styles.subtitle}>Notícias</Text>
-                        <Image
-                            source={{ uri: 'https://media.rawg.io/media/games/b29/b294fdd866dcdb643e7bab370a552855.jpg' }}
-                            style={styles.image}
-                        />
-                    </View>
+                <View style={styles.section}>
+                    <Text style={styles.title}>🔥 Populares Agora</Text>
+
+                    <FlatList
+                        data={popularGames}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity activeOpacity={0.8} style={styles.card}>
+
+                                <ImageBackground
+                                    source={{ uri: item.background_image }}
+                                    style={styles.image}
+                                    imageStyle={styles.imageRadius}
+                                >
+                                </ImageBackground>
+                                <View style={styles.gameInfoPopular}>
+                                    <Text style={styles.gameTitlePopular}>{item.name}</Text>
+                                    <View style={styles.ratingRow}>
+                                        <Ionicons name="star" size={16} color="#FFD700" />
+                                        <Text style={styles.rating}>{item.rating.toFixed(1)}</Text>
+                                        {item.metacritic && (
+                                            <View style={styles.metacriticBadge}>
+                                                <Text style={styles.metacriticText}>
+                                                    {item.metacritic}
+                                                </Text>
+                                            </View>
+                                        )}
+                                    </View>
+                                    {item.genres && <View style={styles.genresContainer}>
+                                        {item.genres.map((g, index) => (
+                                            <View key={index} style={styles.genreBadge}>
+                                                <Text style={styles.genreText}>{g.name}</Text>
+                                            </View>
+                                        ))}
+                                    </View>}
+                                </View>
+                            </TouchableOpacity>
+                        )}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={styles.content}
+                    />
+                </View>
+
+                <View style={[styles.section, { paddingBottom: 60 }]}>
+                    <Text style={styles.title}>📰 Notícias</Text>
+                    <Text style={styles.newsPlaceholder}>
+                        Em breve, atualizações sobre o mundo dos games!
+                    </Text>
                 </View>
             </ScrollView>
-        </SafeAreaView>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-    content: {
+    container: {
         flex: 1,
-        paddingHorizontal: 24,
-        paddingBottom: 16,
+        backgroundColor: colors.background,
+    },
+
+    // Sessões
+    section: {
+        width: "100%",
+        gap: 12,
+        paddingBottom: 20,
     },
     title: {
-        fontSize: 32,
-        fontWeight: "bold",
-        marginBottom: 8,
-        color: theme.text,
+        fontSize: 22,
+        fontFamily: "Inter-SemiBold",
+        color: colors.text,
+        marginLeft: 20,
+        marginTop: 4,
     },
-    subtitle: {
-        fontSize: 24,
-        fontWeight: "600",
-        marginBottom: 10,
-        color: theme.text,
-    },
-    text: {
-        fontSize: 18,
-        fontWeight: "bold",
-        marginVertical: 8,
-        color: theme.text,
-    },
-    body: {
-        flex: 1,
-        alignItems: "center",
-        marginBottom: 40,
+    content: {
+        paddingHorizontal: 20,
     },
     card: {
-        marginBottom: 20,
-        borderRadius: 12,
+        width: 280,
+        marginRight: 16,
+        backgroundColor: colors.tint,
+        borderRadius: 16,
         overflow: "hidden",
-        alignItems: "center",
-        backgroundColor: theme.inputBackground,
-        padding: 10,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 8,
     },
     image: {
-        width: 300,
-        height: 300,
-        borderRadius: 10,
+        width: "100%",
+        height: 180,
+        backgroundColor: "#2a2a3e",
+    },
+    imageRadius: {
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+    },
+    overlay: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: "rgba(0,0,0,0.35)",
+    },
+    gameTitle: {
+        fontFamily: "Inter-Bold",
+        fontSize: 18,
+        color: "#fff",
+        padding: 12,
+    },
+
+    // ================= POPULAR GAMES ==================================================================
+    gameInfoPopular: {
+        padding: 12,
+    },
+    overlayPopular: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: "rgba(0,0,0,0.4)",
+    },
+    gameTitlePopular: {
+        fontSize: 18,
+        fontWeight: "bold",
+        color: "#fff",
+    },
+    ratingRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginBottom: 4,
+    },
+    rating: {
+        color: "#FFD700",
+        fontSize: 16,
+        fontWeight: "bold",
+        marginLeft: 4,
+    },
+    metacriticBadge: {
+        backgroundColor: "#4CAF50",
+        paddingHorizontal: 8,
+        paddingVertical: 2,
+        borderRadius: 4,
+        marginLeft: 8,
+    },
+    metacriticText: {
+        color: "#fff",
+        fontSize: 12,
+        fontWeight: "bold",
+    },
+    genresContainer: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        gap: 6,
+    },
+    genreBadge: {
+        backgroundColor: "#8b85ff",
+        paddingHorizontal: 8,
+        paddingVertical: 2,
+        borderRadius: 4,
+    },
+    genreText: {
+        color: "#fff",
+        fontSize: 10,
+        fontFamily: "Inter-SemiBold",
+    },
+
+    // Notícias
+    newsPlaceholder: {
+        fontFamily: "Inter-Regular",
+        color: colors.label,
+        fontSize: 16,
+        marginLeft: 20,
+        opacity: 0.7,
     },
 });

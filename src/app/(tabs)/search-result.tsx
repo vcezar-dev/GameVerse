@@ -3,21 +3,16 @@ import { useEffect, useState } from "react";
 import { Image, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, useColorScheme, View } from "react-native";
 
 import { Input } from "@/src/components/Input";
+import { Header } from "@/src/components/Header";
 
-import { useTheme } from "@/src/hooks/useTheme";
 import { Game } from "@/src/types";
-
+import { colors } from "@/src/constants/colors";
 import { fetchGamesBySearch } from "@/src/services/api";
-import { useGlobalStyles } from "@/src/styles/global";
-
-const { theme } = useTheme();
 
 export default function SearchScreen() {
     const { searchGame } = useLocalSearchParams<{ searchGame?: string }>();
     const [searchInput, setSearchInput] = useState(searchGame || '');
     const [result, setResult] = useState<Game[]>([])
-
-    const globalStyles = useGlobalStyles();
 
     useEffect(() => {
         async function fetchData() {
@@ -56,12 +51,12 @@ export default function SearchScreen() {
     }
 
     return (
-        <KeyboardAvoidingView style={globalStyles.container}>
-            <View style={globalStyles.header}>
-                <Text style={globalStyles.headerTitle}>GameVerse</Text>
-            </View>
-            <ScrollView style={globalStyles.ScrollView}>
-                <View style={globalStyles.content}>
+        <KeyboardAvoidingView style={{ flex: 1}}>
+
+            <Header />
+
+            <ScrollView>
+                <View>
                     <Input label="Search Game" value={searchInput} onChangeText={setSearchInput} onSubmitEditing={fetchGames}></Input>
                 </View>
                 <View style={styles.body}>
@@ -84,45 +79,45 @@ export default function SearchScreen() {
 }
 
 const styles = StyleSheet.create({
-        content: {
-            flex: 1,
-            paddingHorizontal: 24,
-            paddingBottom: 16,
-        },
-        title: {
-            fontSize: 32,
-            fontWeight: "bold",
-            marginBottom: 8,
-            color: theme.text,
-        },
-        subtitle: {
-            fontSize: 24,
-            fontWeight: "600",
-            marginBottom: 10,
-            color: theme.text,
-        },
-        text: {
-            fontSize: 18,
-            fontWeight: "bold",
-            marginVertical: 8,
-            color: theme.text,
-        },
-        body: {
-            flex: 1,
-            alignItems: "center",
-            marginBottom: 40,
-        },
-        card: {
-            marginBottom: 20,
-            borderRadius: 12,
-            overflow: "hidden",
-            alignItems: "center",
-            backgroundColor: theme.inputBackground,
-            padding: 10,
-        },
-        image: {
-            width: 300,
-            height: 300,
-            borderRadius: 10,
-        },
-    });
+    content: {
+        flex: 1,
+        paddingHorizontal: 24,
+        paddingBottom: 16,
+    },
+    title: {
+        fontSize: 32,
+        fontWeight: "bold",
+        marginBottom: 8,
+        color: colors.text,
+    },
+    subtitle: {
+        fontSize: 24,
+        fontWeight: "600",
+        marginBottom: 10,
+        color: colors.text,
+    },
+    text: {
+        fontSize: 18,
+        fontWeight: "bold",
+        marginVertical: 8,
+        color: colors.text,
+    },
+    body: {
+        flex: 1,
+        alignItems: "center",
+        marginBottom: 40,
+    },
+    card: {
+        marginBottom: 20,
+        borderRadius: 12,
+        overflow: "hidden",
+        alignItems: "center",
+        backgroundColor: colors.inputBackground,
+        padding: 10,
+    },
+    image: {
+        width: 300,
+        height: 300,
+        borderRadius: 10,
+    },
+});

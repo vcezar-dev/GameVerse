@@ -1,5 +1,4 @@
 import { fetchGameById } from "@/src/services/api";
-import { useGlobalStyles } from "@/src/styles/global";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Image, ScrollView, Text, View } from "react-native";
@@ -10,7 +9,6 @@ import { Game } from "@/src/types";
 export default function Index() {
     const { gameId } = useLocalSearchParams<{ gameId?: string }>();
     const [gameDetails, setGameDetails] = useState<Game | null>(null)
-    const styles = useGlobalStyles();
 
     useEffect(() => {
         async function fetchData() {
@@ -33,19 +31,19 @@ export default function Index() {
     }, [gameId]);
 
     return (
-        <SafeAreaView style={styles.container}>
-            <ScrollView style={styles.ScrollView}>
-                <View style={styles.body}>
+        <SafeAreaView style={{ flex: 1, paddingTop: 32 }}>
+            <ScrollView>
+                <View>
                     {gameDetails && (
-                        <View style={styles.card}>
-                            <Text style={styles.subtitle}>{gameDetails.name}</Text>
+                        <View>
+                            <Text>{gameDetails.name}</Text>
                             <Image
                                 source={{ uri: gameDetails.background_image }}
                                 style={{ width: 300, height: 300, borderRadius: 16 }}
                             />
-                            <Text style={styles.text}>{gameDetails.description_raw}</Text>
-                            <Text style={styles.text}>Lançado em: {gameDetails.released}</Text>
-                            <Text style={styles.text}>
+                            <Text>{gameDetails.description_raw}</Text>
+                            <Text>Lançado em: {gameDetails.released}</Text>
+                            <Text>
                                 Avaliação: {gameDetails.rating}/{gameDetails.rating_top}
                             </Text>
                         </View>
