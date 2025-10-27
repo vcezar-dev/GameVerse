@@ -9,11 +9,13 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
+import { router } from "expo-router";
+import { FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { Header } from "@/src/components/Header";
 import { Game } from "@/src/types";
+import { formatDate } from "@/src/utils/formatDate"
 import { colors } from "@/src/constants/colors";
-import { Ionicons } from "@expo/vector-icons";
 
 export default function HomeScreen() {
     const [popularGames, setPopularGames] = useState<Game[]>([]);
@@ -35,29 +37,92 @@ export default function HomeScreen() {
         loadGames();
     }, []);
 
+    async function goToGameDetail(gameId: number) {
+        router.navigate({ pathname: "/game/game-detail", params: { gameId } });
+    }
+
     return (
         <View style={styles.container}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <Header />
 
+            <Header />
+
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <Ionicons name="game-controller" size={40} color="#555" />
 
                 <View style={styles.section}>
-                    <Text style={styles.title}>🎮 Jogos em Lançamento</Text>
+                    <Text style={styles.sectionTitle}>🎮 Jogos em Lançamento</Text>
 
                     <FlatList
                         data={upcomingGames}
                         keyExtractor={(item) => item.id.toString()}
                         renderItem={({ item }) => (
-                            <TouchableOpacity activeOpacity={0.8} style={styles.card}>
+                            <TouchableOpacity activeOpacity={0.8} style={styles.card} onPress={() => goToGameDetail(item.id)}>
+
                                 <ImageBackground
                                     source={{ uri: item.background_image }}
                                     style={styles.image}
                                     imageStyle={styles.imageRadius}
                                 >
-                                    <View style={styles.overlay} />
-                                    <Text style={styles.gameTitle}>{item.name}</Text>
                                 </ImageBackground>
+
+                                {/* <View style={styles.overlay} /> */}
+
+                                <View style={styles.gameInfo}>
+                                    <View style={styles.platformIcon}>
+                                        {item.parent_platforms && item.parent_platforms.map((p) => {
+                                            let icon = null;
+
+                                            switch (p.platform.name.toLowerCase()) {
+                                                case "pc":
+                                                    icon = <FontAwesome name="windows" size={14} color="#FFF" />;
+                                                    break;
+                                                case "linux":
+                                                    icon = <FontAwesome name="linux" size={14} color="#FFF" />;
+                                                    break;
+                                                case "apple macintosh":
+                                                    icon = <FontAwesome name="apple" size={14} color="#FFF" />;
+                                                    break;
+                                                case "playstation":
+                                                    icon = <FontAwesome5 name="playstation" size={14} color="#FFF" />;
+                                                    break;
+                                                case "xbox":
+                                                    icon = <FontAwesome5 name="xbox" size={14} color="#FFF" />;
+                                                    break;
+                                                case "nintendo":
+                                                    icon = <FontAwesome name="gamepad" size={14} color="#FFF" />;
+                                                    break;
+                                                case "ios":
+                                                    icon = <MaterialCommunityIcons name="apple-ios" size={14} color="#FFF" />;
+                                                    break;
+                                                case "android":
+                                                    icon = <FontAwesome name="android" size={14} color="#FFF" />
+                                                    break;
+                                                default:
+                                                    icon = <Text style={{ color: "#FFF" }}>{p.platform.name}</Text>
+                                                    break;
+                                            }
+
+                                            return (
+                                                <View key={p.platform.id} style={styles.icon}>
+                                                    {icon}
+                                                </View>
+                                            );
+                                        })}
+                                    </View>
+
+                                    <Text style={styles.gameTitle}>{item.name}</Text>
+
+                                    <Text style={styles.releaseDate}>🚀 {formatDate(item.released)}</Text>
+
+                                    {item.genres && <View style={styles.genresContainer}>
+                                        {item.genres.map((g, index) => (
+                                            <View key={index} style={styles.genreBadge}>
+                                                <Text style={styles.genreText}>{g.name}</Text>
+                                            </View>
+                                        ))}
+                                    </View>}
+                                </View>
+
                             </TouchableOpacity>
                         )}
                         horizontal
@@ -67,13 +132,13 @@ export default function HomeScreen() {
                 </View>
 
                 <View style={styles.section}>
-                    <Text style={styles.title}>🔥 Populares Agora</Text>
+                    <Text style={styles.sectionTitle}>🔥 Populares Agora</Text>
 
                     <FlatList
                         data={popularGames}
                         keyExtractor={(item) => item.id.toString()}
                         renderItem={({ item }) => (
-                            <TouchableOpacity activeOpacity={0.8} style={styles.card}>
+                            <TouchableOpacity activeOpacity={0.8} style={styles.card} onPress={() => goToGameDetail(item.id)}>
 
                                 <ImageBackground
                                     source={{ uri: item.background_image }}
@@ -81,8 +146,51 @@ export default function HomeScreen() {
                                     imageStyle={styles.imageRadius}
                                 >
                                 </ImageBackground>
-                                <View style={styles.gameInfoPopular}>
-                                    <Text style={styles.gameTitlePopular}>{item.name}</Text>
+                                <View style={styles.gameInfo}>
+                                    <View style={styles.platformIcon}>
+
+                                        {item.parent_platforms && item.parent_platforms.map((p) => {
+                                            let icon = null;
+
+                                            switch (p.platform.name.toLowerCase()) {
+                                                case "pc":
+                                                    icon = <FontAwesome name="windows" size={14} color="#FFF" />;
+                                                    break;
+                                                case "linux":
+                                                    icon = <FontAwesome name="linux" size={14} color="#FFF" />;
+                                                    break;
+                                                case "apple macintosh":
+                                                    icon = <FontAwesome name="apple" size={14} color="#FFF" />;
+                                                    break;
+                                                case "playstation":
+                                                    icon = <FontAwesome5 name="playstation" size={14} color="#FFF" />;
+                                                    break;
+                                                case "xbox":
+                                                    icon = <FontAwesome5 name="xbox" size={14} color="#FFF" />;
+                                                    break;
+                                                case "nintendo":
+                                                    icon = <FontAwesome name="gamepad" size={14} color="#FFF" />;
+                                                    break;
+                                                case "ios":
+                                                    icon = <MaterialCommunityIcons name="apple-ios" size={14} color="#FFF" />;
+                                                    break;
+                                                case "android":
+                                                    icon = <FontAwesome name="android" size={14} color="#FFF" />
+                                                    break;
+                                                default:
+                                                    icon = <Text style={{ color: "#FFF" }}>{p.platform.name}</Text>
+                                                    break;
+                                            }
+
+                                            return (
+                                                <View key={p.platform.id} style={styles.icon}>
+                                                    {icon}
+                                                </View>
+                                            );
+                                        })}
+                                    </View>
+
+                                    <Text style={styles.gameTitle}>{item.name}</Text>
                                     <View style={styles.ratingRow}>
                                         <Ionicons name="star" size={16} color="#FFD700" />
                                         <Text style={styles.rating}>{item.rating.toFixed(1)}</Text>
@@ -111,7 +219,7 @@ export default function HomeScreen() {
                 </View>
 
                 <View style={[styles.section, { paddingBottom: 60 }]}>
-                    <Text style={styles.title}>📰 Notícias</Text>
+                    <Text style={styles.sectionTitle}>📰 Notícias</Text>
                     <Text style={styles.newsPlaceholder}>
                         Em breve, atualizações sobre o mundo dos games!
                     </Text>
@@ -128,20 +236,22 @@ const styles = StyleSheet.create({
     },
 
     // Sessões
+
     section: {
         width: "100%",
         gap: 12,
-        paddingBottom: 20,
+        paddingBottom: 10,
     },
-    title: {
+    sectionTitle: {
         fontSize: 22,
         fontFamily: "Inter-SemiBold",
-        color: colors.text,
+        color: colors.title,
         marginLeft: 20,
         marginTop: 4,
     },
     content: {
         paddingHorizontal: 20,
+        paddingBottom: 20,
     },
     card: {
         width: 280,
@@ -168,32 +278,37 @@ const styles = StyleSheet.create({
     },
     overlay: {
         ...StyleSheet.absoluteFillObject,
-        backgroundColor: "rgba(0,0,0,0.35)",
+        backgroundColor: "rgba(0,0,0,0.3)",
+    },
+    gameInfo: {
+        padding: 12,
+        gap: 3,
     },
     gameTitle: {
-        fontFamily: "Inter-Bold",
-        fontSize: 18,
-        color: "#fff",
-        padding: 12,
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#ffffff",
+    },
+    platformIcon: {
+        flexDirection: "row",
+        flexWrap: "wrap"
+    },
+    icon: {
+        marginRight: 12
+    },
+
+    // ================= LANÇAMENTOS ==================================================================
+
+    releaseDate: {
+        color: colors.text,
+        fontSize: 14,
+        fontFamily: "Inter-SemiBold",
     },
 
     // ================= POPULAR GAMES ==================================================================
-    gameInfoPopular: {
-        padding: 12,
-    },
-    overlayPopular: {
-        ...StyleSheet.absoluteFillObject,
-        backgroundColor: "rgba(0,0,0,0.4)",
-    },
-    gameTitlePopular: {
-        fontSize: 18,
-        fontWeight: "bold",
-        color: "#fff",
-    },
     ratingRow: {
         flexDirection: "row",
         alignItems: "center",
-        marginBottom: 4,
     },
     rating: {
         color: "#FFD700",
@@ -213,6 +328,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontWeight: "bold",
     },
+
     genresContainer: {
         flexDirection: "row",
         flexWrap: "wrap",

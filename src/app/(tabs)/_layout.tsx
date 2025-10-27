@@ -1,5 +1,5 @@
-import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
 import { colors } from "@/src/constants/colors";
 
@@ -12,6 +12,7 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: colors.background,
           borderTopColor: colors.background,
+          
           // height: 50,
           // position: "absolute",
           // bottom: 0,

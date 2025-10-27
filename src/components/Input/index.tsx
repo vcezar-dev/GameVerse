@@ -1,16 +1,22 @@
-import { Text, TextInput, View } from "react-native";
+import { TextInput, View } from "react-native";
 import { s } from "./styles";
-import EvilIcons from '@expo/vector-icons/EvilIcons';
+import { colors } from "@/src/constants/colors";
+import { FontAwesome } from "@expo/vector-icons";
 
-export function Input({ value, onChangeText, label, onSubmitEditing}) {
+type Props = {
+    value: string;
+    onChangeText: (text: string) => void;
+    onSubmitEditing?: () => void;
+}
+
+export function Input({ value, onChangeText, onSubmitEditing}: Props) {
     return(
         <View style={s.container}>
-            <Text style={s.label}>{label}</Text>
-            {/* <EvilIcons name="search" size={24} color="black" /> */}
+            <FontAwesome style={{ left: 10 }} name="search" size={18} color={colors.inputText} /> 
             <TextInput 
                 style={s.input}
                 placeholder='Search Pc, Console or Mobile Game'
-                placeholderTextColor="#c5c3c3"
+                placeholderTextColor={colors.inputText}
                 value={value}
                 onChangeText={onChangeText}
                 onSubmitEditing={onSubmitEditing}

@@ -1,6 +1,8 @@
 // const tintColorLight = '#6C63FF'; // Roxo neon
 // const tintColorDark = '#00FFF6';  // Azul ciano
 
+import { title } from "process";
+
 // export default {
 //   light: {
 //     text: '#000',
@@ -25,12 +27,15 @@
 // };
 
 export const colors = {
-  text: '#000',
+  title: '#000000',
+  text: '#FFFFFF',
   background: '#FFFFFF',
   tint: '#6C63FF',
+  
   tabIconDefault: '#B0B0C0',
   tabIconSelected: '#6C63FF',
+  
   label: '#333333',
-  inputBackground: '#fff',
-  inputText: '#000000',
+  inputBackground: '#e9e9e9ff',
+  inputText: '#858585ff',
 };

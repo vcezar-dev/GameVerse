@@ -1,29 +1,24 @@
-import Colors from "@/src/constants/colors";
-import { StyleSheet, useColorScheme } from "react-native";
+import { StyleSheet} from "react-native";
 
-export const useInputStyles = () => {
-    const colorScheme = useColorScheme();
-    const theme = colorScheme === "dark" ? Colors.dark : Colors.light;
+import { colors } from "@/src/constants/colors";
 
-    return StyleSheet.create({
+export const s = StyleSheet.create({
 
-        container: {
-            marginBottom: 16,
-        },
+    container: {
+        backgroundColor: colors.inputBackground,
+        borderRadius: 24,
+        flexDirection: "row",
+        alignItems: "center",  
+        marginTop: 34,   
+        marginHorizontal: 18,
+        marginBottom: 6,
+        gap: 6
+    },
 
-        label: {
-            color: theme.label,
-            marginBottom: 8,
-            fontSize: 14
-        },
-
-        input: {
-            backgroundColor: theme.inputBackground,
-            color: theme.inputText,
-            fontSize: 18,
-            fontWeight: 'bold',
-            padding: 12,
-            borderRadius: 8
-        }
-    })
-}
+    input: {        
+        color: colors.inputText,
+        fontFamily: "Inter-SemiBold",
+        fontSize: 18,
+        padding: 12,
+    },
+})

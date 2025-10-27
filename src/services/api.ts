@@ -37,7 +37,6 @@ export async function fetchUpcomingGames() {
     //https://api.rawg.io/api/games?key=861d2db735a043a49c7cc772e9bb14c5&dates=2025-10-20,2025-11-20&ordering=released&page_size=10
     `${BASE_URL}?key=${API_KEY}&dates=${startDate},${endDate}&ordering=released&page_size=20`
   );
-  console.log(`URL: ${BASE_URL}?key=${API_KEY}&dates=${startDate},${endDate}&ordering=released&page_size=20`)
   return response.json();
 }
 

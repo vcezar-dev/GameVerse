@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, useColorScheme, View } from "react-native";
+import { Image, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, useColorScheme, View } from "react-native";
 
 import { Input } from "@/src/components/Input";
 import { Header } from "@/src/components/Header";
@@ -8,6 +8,7 @@ import { Header } from "@/src/components/Header";
 import { Game } from "@/src/types";
 import { colors } from "@/src/constants/colors";
 import { fetchGamesBySearch } from "@/src/services/api";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SearchScreen() {
     const { searchGame } = useLocalSearchParams<{ searchGame?: string }>();
@@ -51,50 +52,49 @@ export default function SearchScreen() {
     }
 
     return (
-        <KeyboardAvoidingView style={{ flex: 1}}>
+        <View style={styles.container}>
 
-            <Header />
+            <Input value={searchInput} onChangeText={setSearchInput} onSubmitEditing={fetchGames}></Input>
+            
+            <ScrollView showsVerticalScrollIndicator={false}>
 
-            <ScrollView>
-                <View>
-                    <Input label="Search Game" value={searchInput} onChangeText={setSearchInput} onSubmitEditing={fetchGames}></Input>
-                </View>
-                <View style={styles.body}>
-                    {result && result.map(game => (
-                        <View key={game.id} style={styles.card}>
-
-                            <Pressable style={({ pressed }) => [{ opacity: pressed ? 0.6 : 1 }]} onPress={() => goToGameDetail(game.id)}>
-                                <Text style={styles.subtitle}>{game.name}</Text>
-                                <Image
-                                    source={{ uri: game.background_image }}
-                                    style={{ width: 300, height: 300, borderRadius: 16 }}
-                                />
-                            </Pressable>
-                        </View>
-                    ))}
-                </View>
+                {result && result.map(game => (
+                    <View key={game.id} style={styles.card}>
+                        <TouchableOpacity onPress={() => goToGameDetail(game.id)}>
+                            <Text style={styles.subtitle}>{game.name}</Text>
+                            <Image
+                                source={{ uri: game.background_image }}
+                                style={{ width: 300, height: 300, borderRadius: 16 }}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                ))}
             </ScrollView>
-        </KeyboardAvoidingView>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
-    content: {
+    container: {
         flex: 1,
-        paddingHorizontal: 24,
-        paddingBottom: 16,
+        backgroundColor: colors.background,
+    },
+    section: {
+        width: "100%",
+        gap: 12,
+        paddingBottom: 10,
     },
     title: {
         fontSize: 32,
         fontWeight: "bold",
         marginBottom: 8,
-        color: colors.text,
+        color: colors.title,
     },
     subtitle: {
         fontSize: 24,
         fontWeight: "600",
         marginBottom: 10,
-        color: colors.text,
+        color: colors.title,
     },
     text: {
         fontSize: 18,
@@ -102,15 +102,10 @@ const styles = StyleSheet.create({
         marginVertical: 8,
         color: colors.text,
     },
-    body: {
-        flex: 1,
-        alignItems: "center",
-        marginBottom: 40,
-    },
     card: {
         marginBottom: 20,
         borderRadius: 12,
-        overflow: "hidden",
+
         alignItems: "center",
         backgroundColor: colors.inputBackground,
         padding: 10,
