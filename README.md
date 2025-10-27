@@ -41,7 +41,7 @@ Este projeto foi desenvolvido **exclusivamente para fins de aprendizado**, com f
 
 ```bash
 # Clone este repositório
-git clone https://github.com/seuusuario/gameverse.git
+git clone https://github.com/vcezar-dev/gameverse.git
 
 # Acesse a pasta do projeto
 cd gameverse

@@ -29,7 +29,7 @@ import { title } from "process";
 export const colors = {
   title: '#000000',
   text: '#FFFFFF',
-  background: '#FFFFFF',
+  background: '#ffffffff',
   tint: '#6C63FF',
   
   tabIconDefault: '#B0B0C0',

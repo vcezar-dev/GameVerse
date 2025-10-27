@@ -6,6 +6,8 @@ export const s = StyleSheet.create({
     width: '100%',
     paddingTop: 35, // espaço pro status bar
     paddingBottom: 16,
+    borderBottomWidth: 2,
+    borderColor: "#dbdbdbff"
   },
   container: {
     width: '100%',
@@ -13,6 +15,7 @@ export const s = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
+    
   },
   title: {
     fontSize: 32,

@@ -47,8 +47,6 @@ export default function HomeScreen() {
             <Header />
 
             <ScrollView showsVerticalScrollIndicator={false}>
-                <Ionicons name="game-controller" size={40} color="#555" />
-
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>🎮 Jogos em Lançamento</Text>
 
