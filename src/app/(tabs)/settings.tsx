@@ -1,3 +1,4 @@
+import { colors } from "@/src/constants/colors"
 import { View, Text, StyleSheet } from "react-native"
 
 export default function SettingsScreen() {
@@ -13,7 +14,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 32,
-    // justifyContent: "center",
+    backgroundColor: colors.background,
     gap: 16
   },
 

@@ -38,4 +38,6 @@ export const colors = {
   label: '#333333',
   inputBackground: '#e9e9e9ff',
   inputText: '#858585ff',
+
+  cardBackground: '#6C63FF',
 };
