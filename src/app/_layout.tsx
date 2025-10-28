@@ -11,7 +11,8 @@ export default function RootLayout() {
     return (
         <>
             <StatusBar style="light" />
-            <Stack screenOptions={{ headerShown: false }}>
+            <Stack>
+            {/* </Stack><Stack screenOptions={{ headerShown: false }}> */}
                 {/* As tabs ficam dentro da pasta (tabs) */}
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                 {/* Tela que não aparece nas tabs */}

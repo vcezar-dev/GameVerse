@@ -66,6 +66,22 @@ export type ParentPlatform = {
   platform: PlatformInfo;
 };
 
+export type Publisher = {
+  id: number;
+  name: string;
+  slug: string;
+  games_count: number;
+  image_background: string;
+};
+
+export type Developer = {
+  id: number;
+  name: string;
+  slug: string;
+  games_count: number;
+  image_background: string;
+};
+
 export type Game = {
   id: number;
   slug: string;
@@ -82,8 +98,11 @@ export type Game = {
   added: number;
   added_by_status: AddedByStatus;
   metacritic: number | null;
+  website: string;
   suggestions_count: number;
   updated: string;
+  publishers: Publisher[] | null;
+  developers: Developer[] | null;
   score: number | null;
   clip: string | null;
   tags: Tag[];

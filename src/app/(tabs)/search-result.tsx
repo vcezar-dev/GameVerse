@@ -7,7 +7,6 @@ import { Input } from "@/src/components/Input";
 import { Game } from "@/src/types";
 import { colors } from "@/src/constants/colors";
 import { fetchGamesBySearch } from "@/src/services/api";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function SearchScreen() {
@@ -207,7 +206,7 @@ const styles = StyleSheet.create({
         flexWrap: "wrap"
     },
     icon: {
-        marginRight: 12
+        marginLeft: 8
     },
 
     // GENRES & RATING
@@ -215,6 +214,7 @@ const styles = StyleSheet.create({
     genresContainer: {
         flexDirection: "row",
         flexWrap: "wrap",
+        flexShrink: 1,
         gap: 6,
     },
     genreBadge: {

@@ -6,36 +6,36 @@ import { View, Text, StyleSheet, TouchableOpacity, Linking } from "react-native"
 export default function SettingsScreen() {
 
   function toAppInfo() {
-  const url = "https://github.com/vcezar-dev/gameverse";
+    const url = "https://github.com/vcezar-dev/gameverse";
 
-  Linking.canOpenURL(url)
-    .then((supported) => {
-      if (supported) {
-        Linking.openURL(url);
-      } else {
-        console.log("Não é possível abrir o link:", url);
-      }
-    })
-    .catch((err) => console.error("Erro ao abrir link:", err));
-}
+    Linking.canOpenURL(url)
+      .then((supported) => {
+        if (supported) {
+          Linking.openURL(url);
+        } else {
+          console.log("Não é possível abrir o link:", url);
+        }
+      })
+      .catch((err) => console.error("Erro ao abrir link:", err));
+  }
 
   return (
     <View style={styles.container}>
       <Header />
       <View style={styles.settings}>
 
-        <View style={styles.settingsInfo}>
+        <View style={styles.headerInfo}>
           <Ionicons name="game-controller" size={90} color={colors.tint} />
           <Text style={styles.title}>Game Info</Text>
-          <Text style={styles.settingText}>Discover and explore your favorite games</Text>
+          <Text style={styles.headerDescription}>Discover and explore your favorite games</Text>
         </View>
 
         
         <Text style={styles.subtitle}>Settings</Text>
 
-        <View style={styles.content}>
+        <View style={styles.optionsList}>
 
-          <TouchableOpacity activeOpacity={0.8} style={styles.options} onPress={toAppInfo}>
+          <TouchableOpacity activeOpacity={0.8} style={styles.optionsItem} onPress={toAppInfo}>
             <View style={styles.optionsLeft}>
 
               <View style={styles.optionsIcon}>
@@ -51,7 +51,7 @@ export default function SettingsScreen() {
             <Feather name="chevron-right" size={20} color="#FFF" />
           </TouchableOpacity>
 
-          <TouchableOpacity activeOpacity={0.8} style={styles.options}>
+          <TouchableOpacity activeOpacity={0.8} style={styles.optionsItem}>
             <View style={styles.optionsLeft}>
 
               <View style={styles.optionsIcon}>
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
 
-  settingsInfo: {
+  headerInfo: {
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 50
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     color: colors.title,
   },
 
-  settingText: {
+  headerDescription: {
     fontFamily: "sans-serif"
   },
 
@@ -108,11 +108,11 @@ const styles = StyleSheet.create({
     paddingBottom: 10
   },
 
-  content: {
+  optionsList: {
     gap: 10
   },
 
-  options: {
+  optionsItem: {
     backgroundColor: colors.tint,
     flexDirection: "row",
     alignItems: "center",
