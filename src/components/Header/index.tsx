@@ -1,26 +1,33 @@
-import { Image, View, Text, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { router } from 'expo-router';
-import { s } from './styles';
+import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
-async function goToUserSettings() {
-  router.navigate({ pathname: '/(tabs)/settings' });
-}
+
+import { colors } from '@/src/constants/colors';
+import { s } from "./styles";
 
 export function Header() {
   return (
-    <LinearGradient
-      colors={['#7972fd', '#4B45D3']}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 0 }}
-      style={s.gradient}
-    >
-      <View style={s.container}>
-        <Text style={s.title}>
-          Game<Text style={s.titleAccent}>Verse</Text>
-        </Text>
+    <View style={s.container}>
+      <TouchableOpacity style={s.icon} activeOpacity={0.7}>
+        <Ionicons name="planet-sharp" size={50} color='#1d5bc0ff' />
+      </TouchableOpacity>
 
-        <TouchableOpacity activeOpacity={0.7} onPress={goToUserSettings}>
+      <View style={s.rightContainer}>
+        {/* <TouchableOpacity activeOpacity={0.7} style={s.notificationContainer}>
+            <MaterialCommunityIcons name="bell-outline" size={26} color="#fff" />
+            <View style={s.badge}>
+              <Text style={s.badgeText}>4</Text>
+            </View>
+          </TouchableOpacity> */}
+
+        <View style={s.pointsContainer}>
+          <FontAwesome name="diamond" size={16} color="#fff" />
+          <Text style={s.pointsText}>97</Text>
+        </View>
+
+        <TouchableOpacity activeOpacity={0.7}>
           <Image
             style={s.image}
             source={{
@@ -29,6 +36,6 @@ export function Header() {
           />
         </TouchableOpacity>
       </View>
-    </LinearGradient>
+    </View>
   );
 }

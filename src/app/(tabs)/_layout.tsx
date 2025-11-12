@@ -10,8 +10,8 @@ export default function TabLayout() {
         headerShown: false,
         tabBarShowLabel: true,
         tabBarStyle: {
-          backgroundColor: colors.background,
-          borderTopColor: colors.background,
+          backgroundColor: "#1E1F21",
+          borderBlockColor: "#484a4eff",
           
           // height: 50,
           // position: "absolute",

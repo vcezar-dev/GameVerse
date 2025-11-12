@@ -1,36 +1,59 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '@/src/constants/colors';
 
 export const s = StyleSheet.create({
-  gradient: {
-    width: '100%',
-    paddingTop: 35, // espaço pro status bar
-    paddingBottom: 16,
-    borderBottomWidth: 2,
-    borderColor: "#dbdbdbff"
-  },
   container: {
-    width: '100%',
+    paddingTop: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    
+    backgroundColor: '#1E1F21',
   },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
+  icon: {
+    padding: 10,
+    paddingLeft: 20,
+  },
+  pointsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#1E6DEB',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 20,
+  },
+  pointsText: {
     color: '#fff',
-    letterSpacing: 1,
+    fontWeight: 'bold',
+    marginLeft: 6,
+    fontSize: 14,
   },
-  titleAccent: {
-    color: '#00E0FF', // destaque leve no "Verse"
+  rightContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: 20,
+    gap: 14,
+  },
+  notificationContainer: {
+    position: 'relative',
+  },
+  badge: {
+    position: 'absolute',
+    top: -4,
+    right: -4,
+    backgroundColor: '#ff3b30',
+    borderRadius: 8,
+    width: 16,
+    height: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  badgeText: {
+    color: '#fff',
+    fontSize: 10,
+    fontWeight: 'bold',
   },
   image: {
-    width: 36,
-    height: 36,
-    borderRadius: 23,
-    borderWidth: 2,
-    borderColor: '#fff',
+    width: 34,
+    height: 34,
+    borderRadius: 17,
   },
 });

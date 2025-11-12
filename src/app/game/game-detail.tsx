@@ -179,13 +179,13 @@ const styles = StyleSheet.create({
     },
 
     header: {
-        backgroundColor: '#4037e6ff',
+        backgroundColor: '#1E1F21',
         flexDirection: "row",
         alignItems: "center",
         paddingTop: 34,
         padding: 14,
         borderBottomWidth: 2,
-        borderColor: "#FFF",
+        borderColor: "#504f4fff",
         gap: 12
     },
 
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     },
 
     headerText: {
-        color: "#FFF",
+        color: colors.title,
         fontSize: 20,
         fontWeight: "bold"
     },
@@ -212,7 +212,8 @@ const styles = StyleSheet.create({
         gap: 16
     },
     title: {
-        fontSize: 36,
+        fontSize: 26,
+        color: colors.title,
         fontFamily: "sans-serif-medium",
         fontWeight: "bold",
     },
@@ -220,7 +221,7 @@ const styles = StyleSheet.create({
     // ====================== RATING / METACRITIC / RELEASED
 
     mainDetails: {
-        backgroundColor: '#4037e6ff',
+        backgroundColor: colors.cardBackground,
         borderRadius: 8,
         paddingVertical: 16,
         paddingHorizontal: 50,
@@ -255,13 +256,13 @@ const styles = StyleSheet.create({
     },
 
     releaseText: {
-        color: "#FFF",
+        color: colors.text,
         fontSize: 18,
         fontWeight: "bold",
     },
 
     metacriticText: {
-        color: "#FFF",
+        color: colors.text,
         fontSize: 18,
         fontWeight: "bold",
     },
@@ -270,16 +271,19 @@ const styles = StyleSheet.create({
 
     },
     subtitle: {
-        fontSize: 24,
+        fontSize: 18,
+        color: colors.title,
         fontFamily: "sans-serif-medium",
         fontWeight: "bold"
     },
     descriptionText: {
-        fontSize: 14,
+        fontSize: 12,
+        color: colors.text,
         fontFamily: "sans-serif",
         textAlign: "justify"
     },
     text: {
+        fontSize: 12,
         color: '#8b8b8bff'
     },
 
@@ -296,7 +300,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
     },
     genreText: {
-        color: "#fff",
+        color: "#e7e6e6ff",
         fontSize: 10,
         fontFamily: "Inter-SemiBold",
     },

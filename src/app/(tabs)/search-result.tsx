@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import { Input } from "@/src/components/Input";
 
@@ -13,6 +13,8 @@ export default function SearchScreen() {
     const { searchGame } = useLocalSearchParams<{ searchGame?: string }>();
     const [searchInput, setSearchInput] = useState(searchGame || '');
     const [result, setResult] = useState<Game[]>([])
+    const [favorites, setFavorites] = useState<{ [key: number]: boolean }>({});
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
@@ -22,10 +24,13 @@ export default function SearchScreen() {
             }
 
             try {
+                setLoading(true);
                 const data = await fetchGamesBySearch(searchGame);
                 setResult(data.results);
             } catch (error) {
                 console.error("Erro ao buscar dados:", error);
+            } finally {
+                setLoading(false);
             }
         }
 
@@ -36,7 +41,11 @@ export default function SearchScreen() {
 
 
     async function fetchGames() {
+
         if (!searchInput) return;
+
+        setResult([]);
+
         try {
             const data = await fetchGamesBySearch(searchInput);
             setResult(data.results);
@@ -50,108 +59,147 @@ export default function SearchScreen() {
         router.navigate({ pathname: "/game/game-detail", params: { gameId } });
     }
 
+    function toggleCheck(gameId: number) {
+    setFavorites((prev) => ({
+        ...prev,
+        [gameId]: !prev[gameId] 
+    }));
+    }
+
+    function handleClearSearch() {
+        setSearchInput('');
+        setResult([]);
+    }
+
     return (
         <KeyboardAvoidingView style={styles.container}>
 
-            <Input value={searchInput} onChangeText={setSearchInput} onSubmitEditing={fetchGames}></Input>
+            <Input value={searchInput} onChangeText={setSearchInput} onSubmitEditing={fetchGames} onClear={handleClearSearch}></Input>
 
-            <ScrollView showsVerticalScrollIndicator={false}>
-
-                <View style={styles.content}>
-                    {result && result.map(game => (
-                        <TouchableOpacity key={game.id} activeOpacity={0.8} style={styles.card} onPress={() => goToGameDetail(game.id)}>
-                            <Image
-                                source={{ uri: game.background_image }}
-                                style={styles.image}
-                            />
-                            <View style={styles.gameInfo}>
-                                <Text style={styles.gameTitle}>{game.name}</Text>
-
-                                <View style={styles.platformIcon}>
-
-                                    {game.parent_platforms && game.parent_platforms.map((p) => {
-                                        let icon = null;
-
-                                        switch (p.platform.name.toLowerCase()) {
-                                            case "pc":
-                                                icon = <FontAwesome name="windows" size={12} color="#FFF" />;
-                                                break;
-                                            case "linux":
-                                                icon = <FontAwesome name="linux" size={12} color="#FFF" />;
-                                                break;
-                                            case "apple macintosh":
-                                                icon = <FontAwesome name="apple" size={12} color="#FFF" />;
-                                                break;
-                                            case "playstation":
-                                                icon = <FontAwesome5 name="playstation" size={12} color="#FFF" />;
-                                                break;
-                                            case "xbox":
-                                                icon = <FontAwesome5 name="xbox" size={12} color="#FFF" />;
-                                                break;
-                                            case "nintendo":
-                                                icon = <FontAwesome name="gamepad" size={12} color="#FFF" />;
-                                                break;
-                                            case "ios":
-                                                icon = <MaterialCommunityIcons name="apple-ios" size={12} color="#FFF" />;
-                                                break;
-                                            case "android":
-                                                icon = <FontAwesome name="android" size={12} color="#FFF" />
-                                                break;
-                                            default:
-                                                icon = <Text style={{ color: "#FFF" }}>{p.platform.name}</Text>
-                                                break;
-                                        }
-
-                                        return (
-                                            <View key={p.platform.id} style={styles.icon}>
-                                                {icon}
-                                            </View>
-                                        );
-                                    })}
-                                </View>
-
-                                {game.genres && <View style={styles.genresContainer}>
-                                    {game.genres.map((g, index) => (
-                                        <View key={index} style={styles.genreBadge}>
-                                            <Text style={styles.genreText}>{g.name}</Text>
-                                        </View>
-                                    ))}
-                                </View>}
-
-                                <View style={styles.gameDetails}>
-                                    <View style={styles.ratingRow}>
-                                        <Ionicons name="star" size={12} color="#FFD700" />
-                                        <Text style={styles.rating}>{game.rating.toFixed(1)}</Text>
-                                        {game.metacritic ? (
-                                            <View
-                                                style={[
-                                                    {
-                                                        backgroundColor:
-                                                            game.metacritic >= 75
-                                                                ? "#4CAF50" 
-                                                                : game.metacritic >= 50
-                                                                    ? "#FFC107" 
-                                                                    : "#F44336", 
-                                                    }, styles.metacriticBadge
-                                                ]}
-                                            >
-                                                <Text style={styles.metacriticText}>
-                                                    {game.metacritic}
-                                                </Text>
-                                            </View>
-                                        ) : (<View style={{ width: 50 }} />)}
-                                    </View>
-
-                                    <View>
-                                        <Text style={styles.releaseDate}>{game.released}</Text>
-                                    </View>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                    ))}
+            {loading ? (
+                // Mostra o loading centralizado na tela
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color={colors.tint} />
                 </View>
+            ) : result && result.length > 0 ? (
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    <View style={styles.content}>
+                        {result.map((game) => (
+                            <TouchableOpacity
+                                key={game.id}
+                                activeOpacity={0.8}
+                                style={styles.card}
+                                onPress={() => goToGameDetail(game.id)}
+                            >
+                                <Image source={{ uri: game.background_image }} style={styles.image} />
 
-            </ScrollView>
+                                <View style={styles.gameInfo}>
+                                    <Text style={styles.gameTitle} numberOfLines={1} ellipsizeMode="tail">{game.name}</Text>
+
+                                    <TouchableOpacity style={styles.checkBox} onPress={() => toggleCheck(game.id)}>
+                                        {favorites[game.id] ? (
+                                            <FontAwesome name="heart" size={20} color="#ff0000ff" />
+                                                ) : (
+                                            <FontAwesome name="heart-o" size={20} color="#727272ff" />
+                                        )}
+                                    </TouchableOpacity>
+
+                                    <View style={styles.platformIcon}>
+                                        {game.parent_platforms &&
+                                            game.parent_platforms.map((p) => {
+                                                let icon = null;
+
+                                                switch (p.platform.name.toLowerCase()) {
+                                                    case "pc":
+                                                        icon = <FontAwesome name="windows" size={10} color="#BCBCBC" />;
+                                                        break;
+                                                    case "linux":
+                                                        icon = <FontAwesome name="linux" size={10} color="#BCBCBC" />;
+                                                        break;
+                                                    case "apple macintosh":
+                                                        icon = <FontAwesome name="apple" size={10} color="#BCBCBC" />;
+                                                        break;
+                                                    case "playstation":
+                                                        icon = <FontAwesome5 name="playstation" size={10} color="#BCBCBC" />;
+                                                        break;
+                                                    case "xbox":
+                                                        icon = <FontAwesome5 name="xbox" size={10} color="#BCBCBC" />;
+                                                        break;
+                                                    case "nintendo":
+                                                        icon = <FontAwesome name="gamepad" size={10} color="#BCBCBC" />;
+                                                        break;
+                                                    case "ios":
+                                                        icon = <MaterialCommunityIcons name="apple-ios" size={10} color="#BCBCBC" />;
+                                                        break;
+                                                    case "android":
+                                                        icon = <FontAwesome name="android" size={10} color="#BCBCBC" />;
+                                                        break;
+                                                    default:
+                                                        icon = <Text style={{ color: "#FFF" }}>{p.platform.name}</Text>;
+                                                        break;
+                                                }
+
+                                                return (
+                                                    <View key={p.platform.id} style={styles.icon}>
+                                                        {icon}
+                                                    </View>
+                                                );
+                                            })}
+                                    </View>
+
+                                    {game.genres && (
+                                        <View style={styles.genresContainer}>
+                                            {game.genres.slice(0, 3).map((g, index) => (
+                                            <View key={index} style={styles.genreBadge}>
+                                                <Text style={styles.genreText}>{g.name}</Text>
+                                            </View>
+                                            ))}
+                                        </View>
+                                        )}
+
+                                    <View style={styles.gameDetails}>
+                                        <View style={styles.ratingRow}>
+                                            <Ionicons name="star" size={12} color="#FFD700" />
+                                            <Text style={styles.rating}>{game.rating.toFixed(1)}</Text>
+                                            {game.metacritic ? (
+                                                <View
+                                                    style={[
+                                                        {
+                                                            backgroundColor:
+                                                                game.metacritic >= 75
+                                                                    ? "#4CAF50"
+                                                                    : game.metacritic >= 50
+                                                                        ? "#FFC107"
+                                                                        : "#F44336",
+                                                        },
+                                                        styles.metacriticBadge,
+                                                    ]}
+                                                >
+                                                    <Text style={styles.metacriticText}>{game.metacritic}</Text>
+                                                </View>
+                                            ) : (
+                                                <View style={{ width: 50 }} />
+                                            )}
+                                        </View>
+
+                                        <View>
+                                            <Text style={styles.releaseDate}>{game.released}</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+                </ScrollView>
+            ) : (
+                // Mostra o estado vazio
+                <View style={styles.empty}>
+                    <Ionicons name="search-outline" size={70} color="#5f5f5f" />
+                    <Text style={styles.emptyTitle}>Search Your Favorite Game</Text>
+                    <Text style={styles.emptyText}>Find information about any game</Text>
+                </View>
+            )}
+
         </KeyboardAvoidingView>
     )
 }
@@ -161,6 +209,32 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.background,
     },
+
+    empty: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
+    },
+
+    emptyTitle: {
+        color: colors.title,
+        fontFamily: "Inter-Bold",
+        fontSize: 18,
+    },
+
+    emptyText: {
+        color: "#757575ff",
+        fontFamily: "Inter",
+        fontSize: 12,
+    },
+
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
     content: {
         gap: 12,
         paddingHorizontal: 20,
@@ -186,6 +260,15 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 12,
         borderBottomRightRadius: 0,
     },
+
+    checkBox: {
+        position: 'absolute',
+        right: 10,
+        top: 10,
+        zIndex: 9999,
+        elevation: 10,
+    },
+
     gameInfo: {
         flex: 1,
         padding: 10,
@@ -193,11 +276,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     gameTitle: {
-        fontSize: 20,
+        fontSize: 16,
         fontWeight: "bold",
-        color: "#ffffffff",
+        color: colors.title,
+        marginRight: 100,
         flexWrap: 'wrap',
         flexShrink: 1,
+        maxWidth: 200,
         width: '100%',
     },
 
@@ -218,13 +303,13 @@ const styles = StyleSheet.create({
         gap: 6,
     },
     genreBadge: {
-        backgroundColor: "#8b85ff",
+        backgroundColor: colors.tint,
         paddingHorizontal: 8,
         paddingVertical: 2,
         borderRadius: 4,
     },
     genreText: {
-        color: "#fff",
+        color: colors.genreText,
         fontSize: 10,
         fontFamily: "Inter-SemiBold",
     },

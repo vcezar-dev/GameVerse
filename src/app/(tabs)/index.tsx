@@ -48,7 +48,7 @@ export default function HomeScreen() {
 
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>🎮 Jogos em Lançamento</Text>
+                    <Text style={styles.sectionTitle}>Jogos em Lançamento</Text>
 
                     <FlatList
                         data={upcomingGames}
@@ -72,28 +72,28 @@ export default function HomeScreen() {
 
                                             switch (p.platform.name.toLowerCase()) {
                                                 case "pc":
-                                                    icon = <FontAwesome name="windows" size={14} color="#FFF" />;
+                                                    icon = <FontAwesome name="windows" size={10} color="#BCBCBC" />;
                                                     break;
                                                 case "linux":
-                                                    icon = <FontAwesome name="linux" size={14} color="#FFF" />;
+                                                    icon = <FontAwesome name="linux" size={10} color="#BCBCBC" />;
                                                     break;
                                                 case "apple macintosh":
-                                                    icon = <FontAwesome name="apple" size={14} color="#FFF" />;
+                                                    icon = <FontAwesome name="apple" size={10} color="#BCBCBC" />;
                                                     break;
                                                 case "playstation":
-                                                    icon = <FontAwesome5 name="playstation" size={14} color="#FFF" />;
+                                                    icon = <FontAwesome5 name="playstation" size={10} color="#BCBCBC" />;
                                                     break;
                                                 case "xbox":
-                                                    icon = <FontAwesome5 name="xbox" size={14} color="#FFF" />;
+                                                    icon = <FontAwesome5 name="xbox" size={10} color="#BCBCBC" />;
                                                     break;
                                                 case "nintendo":
-                                                    icon = <FontAwesome name="gamepad" size={14} color="#FFF" />;
+                                                    icon = <FontAwesome name="gamepad" size={10} color="#BCBCBC" />;
                                                     break;
                                                 case "ios":
-                                                    icon = <MaterialCommunityIcons name="apple-ios" size={14} color="#FFF" />;
+                                                    icon = <MaterialCommunityIcons name="apple-ios" size={10} color="#BCBCBC" />;
                                                     break;
                                                 case "android":
-                                                    icon = <FontAwesome name="android" size={14} color="#FFF" />
+                                                    icon = <FontAwesome name="android" size={10} color="#BCBCBC" />
                                                     break;
                                                 default:
                                                     icon = <Text style={{ color: "#FFF" }}>{p.platform.name}</Text>
@@ -108,7 +108,7 @@ export default function HomeScreen() {
                                         })}
                                     </View>
 
-                                    <Text style={styles.gameTitle}>{item.name}</Text>
+                                    <Text style={styles.gameTitle} numberOfLines={1} ellipsizeMode="tail">{item.name}</Text>
 
                                     <Text style={styles.releaseDate}>🚀 {formatDate(item.released)}</Text>
 
@@ -130,7 +130,7 @@ export default function HomeScreen() {
                 </View>
 
                 <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>🔥 Populares Agora</Text>
+                    <Text style={styles.sectionTitle}>Populares Agora</Text>
 
                     <FlatList
                         data={popularGames}
@@ -152,28 +152,28 @@ export default function HomeScreen() {
 
                                             switch (p.platform.name.toLowerCase()) {
                                                 case "pc":
-                                                    icon = <FontAwesome name="windows" size={14} color="#FFF" />;
+                                                    icon = <FontAwesome name="windows" size={10} color="#BCBCBC" />;
                                                     break;
                                                 case "linux":
-                                                    icon = <FontAwesome name="linux" size={14} color="#FFF" />;
+                                                    icon = <FontAwesome name="linux" size={10} color="#BCBCBC" />;
                                                     break;
                                                 case "apple macintosh":
-                                                    icon = <FontAwesome name="apple" size={14} color="#FFF" />;
+                                                    icon = <FontAwesome name="apple" size={10} color="#BCBCBC" />;
                                                     break;
                                                 case "playstation":
-                                                    icon = <FontAwesome5 name="playstation" size={14} color="#FFF" />;
+                                                    icon = <FontAwesome5 name="playstation" size={10} color="#BCBCBC" />;
                                                     break;
                                                 case "xbox":
-                                                    icon = <FontAwesome5 name="xbox" size={14} color="#FFF" />;
+                                                    icon = <FontAwesome5 name="xbox" size={10} color="#BCBCBC" />;
                                                     break;
                                                 case "nintendo":
-                                                    icon = <FontAwesome name="gamepad" size={14} color="#FFF" />;
+                                                    icon = <FontAwesome name="gamepad" size={10} color="#BCBCBC" />;
                                                     break;
                                                 case "ios":
-                                                    icon = <MaterialCommunityIcons name="apple-ios" size={14} color="#FFF" />;
+                                                    icon = <MaterialCommunityIcons name="apple-ios" size={10} color="#BCBCBC" />;
                                                     break;
                                                 case "android":
-                                                    icon = <FontAwesome name="android" size={14} color="#FFF" />
+                                                    icon = <FontAwesome name="android" size={10} color="#BCBCBC" />
                                                     break;
                                                 default:
                                                     icon = <Text style={{ color: "#FFF" }}>{p.platform.name}</Text>
@@ -188,7 +188,7 @@ export default function HomeScreen() {
                                         })}
                                     </View>
 
-                                    <Text style={styles.gameTitle}>{item.name}</Text>
+                                    <Text style={styles.gameTitle} numberOfLines={1} ellipsizeMode="tail">{item.name}</Text>
                                     <View style={styles.ratingRow}>
                                         <Ionicons name="star" size={16} color="#FFD700" />
                                         <Text style={styles.rating}>{item.rating.toFixed(1)}</Text>
@@ -220,6 +220,9 @@ export default function HomeScreen() {
                     <Text style={styles.sectionTitle}>📰 Notícias</Text>
                     <Text style={styles.newsPlaceholder}>
                         Em breve, atualizações sobre o mundo dos games!
+
+                        <View style={{ padding: 20 }}>
+                        </View>
                     </Text>
                 </View>
             </ScrollView>
@@ -228,6 +231,9 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+    checked: {
+        
+    },
     container: {
         flex: 1,
         backgroundColor: colors.background,
@@ -237,12 +243,12 @@ const styles = StyleSheet.create({
 
     section: {
         width: "100%",
-        gap: 12,
-        paddingBottom: 10,
+        paddingTop: 20,
+        gap: 6,
     },
     sectionTitle: {
-        fontSize: 22,
-        fontFamily: "Inter-SemiBold",
+        fontSize: 18,
+        fontFamily: "Inter-Bold",
         color: colors.title,
         marginLeft: 20,
         marginTop: 4,
@@ -254,7 +260,7 @@ const styles = StyleSheet.create({
     card: {
         width: 280,
         marginRight: 16,
-        backgroundColor: colors.tint,
+        backgroundColor: colors.cardBackground,
         borderRadius: 16,
         overflow: "hidden",
         shadowColor: "#000",
@@ -280,12 +286,13 @@ const styles = StyleSheet.create({
     },
     gameInfo: {
         padding: 12,
-        gap: 3,
+        gap: 8,
     },
     gameTitle: {
-        fontSize: 20,
-        fontWeight: "bold",
-        color: "#ffffff",
+        fontSize: 15,
+        fontFamily: "Inter-Bold",
+        color: colors.title,
+        maxWidth: 260,
     },
     platformIcon: {
         flexDirection: "row",
@@ -299,7 +306,7 @@ const styles = StyleSheet.create({
 
     releaseDate: {
         color: colors.text,
-        fontSize: 14,
+        fontSize: 10,
         fontFamily: "Inter-SemiBold",
     },
 
@@ -333,20 +340,20 @@ const styles = StyleSheet.create({
         gap: 6,
     },
     genreBadge: {
-        backgroundColor: "#8b85ff",
+        backgroundColor: colors.tint,
         paddingHorizontal: 8,
         paddingVertical: 2,
         borderRadius: 4,
     },
     genreText: {
-        color: "#fff",
+        color: colors.genreText,
         fontSize: 10,
         fontFamily: "Inter-SemiBold",
     },
 
     // Notícias
     newsPlaceholder: {
-        fontFamily: "Inter-Regular",
+        fontFamily: "Inter",
         color: colors.label,
         fontSize: 16,
         marginLeft: 20,

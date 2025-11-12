@@ -8,31 +8,31 @@ type Props = {
     value: string;
     onChangeText: (text: string) => void;
     onSubmitEditing?: () => void;
+    onClear?: () => void;
 }
 
 async function goToUserSettings() {
     router.navigate({ pathname: '/(tabs)/settings' });
 }
 
-
-export function Input({ value, onChangeText, onSubmitEditing }: Props) {
+export function Input({ value, onChangeText, onSubmitEditing, onClear }: Props) {
     return (
         <View style={s.container}>
             <View style={s.content}>
-                <FontAwesome name="search" size={18} color={colors.inputText} />
+                <FontAwesome name="search" size={18} color="#818181" />
 
                 <TextInput
                     style={s.input}
                     placeholder='Search apps & Games'
-                    placeholderTextColor={colors.inputText}
+                    placeholderTextColor="#818181"
                     value={value}
                     onChangeText={onChangeText}
                     onSubmitEditing={onSubmitEditing}
                 >
                 </TextInput>
 
-                <TouchableOpacity onPress={() => onChangeText("")}>
-                    <Feather name="x" size={20} color={colors.inputText} />
+                <TouchableOpacity onPress={onClear}>
+                    {value != '' ? (<Feather name="x" size={20} color="#818181" />): null}
                 </TouchableOpacity>
             </View>
 

@@ -1,8 +1,6 @@
 // const tintColorLight = '#6C63FF'; // Roxo neon
 // const tintColorDark = '#00FFF6';  // Azul ciano
 
-import { title } from "process";
-
 // export default {
 //   light: {
 //     text: '#000',
@@ -27,17 +25,19 @@ import { title } from "process";
 // };
 
 export const colors = {
-  title: '#000000',
-  text: '#FFFFFF',
-  background: '#ffffffff',
-  tint: '#6C63FF',
-  
-  tabIconDefault: '#B0B0C0',
-  tabIconSelected: '#6C63FF',
-  
-  label: '#333333',
-  inputBackground: '#e9e9e9ff',
-  inputText: '#858585ff',
+  title: '#E2E2E2',
+  gameTitle: "#B1B3B2",               // Títulos claros sobre fundo escuro
+  text: '#d3d3d3ff',               // Texto principal de alta legibilidade
+  background: '#131313',         // Fundo principal (Material Dark)
+  tint: '#014A76',               // Cor de destaque (Google/Material acento)
 
-  cardBackground: '#6C63FF',
+  tabIconDefault: '#C3C4C6',     // Ícone inativo (cinza médio)
+  tabIconSelected: '#014A76',    // Ícone ativo (acento principal)
+
+  label: '#B3B3B3',              // Rótulos e textos secundários
+  inputBackground: '#1E1E1E',    // Campo de entrada (superfície elevada)
+  inputText: '#D6D7D9',          // Texto digitado (alto contraste)
+
+  cardBackground: '#1E1F21',
+  genreText: '#d8d8d8ff',     // Fundo de cards (superfície intermediária)
 };

@@ -25,7 +25,7 @@ export const s = StyleSheet.create({
 
   input: {
     flex: 1,
-    color: colors.inputText,
+    color: "#818181",
     fontFamily: "sans-serif",
     fontSize: 18,
   },
